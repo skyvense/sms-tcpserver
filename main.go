@@ -11,6 +11,7 @@ func main() {
 	// Parse command line arguments
 	port := flag.String("port", "8080", "TCP server port")
 	httpBaseURL := flag.String("http-url", "", "Base URL for HTTP requests (e.g., https://test.com/path)")
+	iconURL := flag.String("icon", "https://i.ibb.co/WNcWfLJP/unnamed.jpg", "Icon URL for HTTP requests")
 	flag.Parse()
 
 	if *httpBaseURL == "" {
@@ -18,7 +19,7 @@ func main() {
 	}
 
 	// Initialize HTTP sender
-	handlers.InitHTTPSender(*httpBaseURL)
+	handlers.InitHTTPSender(*httpBaseURL, *iconURL)
 
 	// Create and start the server
 	srv := server.NewServer(":" + *port)

@@ -33,11 +33,13 @@ var (
 	messageQueue = make(chan models.Message, 1000)
 	httpWg       sync.WaitGroup
 	httpBaseURL  string
+	iconURL      string
 )
 
-// InitHTTPSender initializes the HTTP sender with the base URL
-func InitHTTPSender(baseURL string) {
+// InitHTTPSender initializes the HTTP sender with the base URL and icon URL
+func InitHTTPSender(baseURL, icon string) {
 	httpBaseURL = baseURL
+	iconURL = icon
 	// Start HTTP sender goroutine
 	httpWg.Add(1)
 	go httpSender()
@@ -55,6 +57,11 @@ func httpSender() {
 			continue
 		}
 		u.Path = path.Join(u.Path, msg.Num, msg.Txt)
+
+		// Add icon parameter
+		q := u.Query()
+		q.Set("icon", iconURL)
+		u.RawQuery = q.Encode()
 
 		// Send HTTP GET request
 		resp, err := httpClient.Get(u.String())

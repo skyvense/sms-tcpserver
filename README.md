@@ -59,12 +59,16 @@ go run main.go -http-url https://test.com/path
 
 # 指定端口和HTTP URL
 go run main.go -port 9090 -http-url https://test.com/path
+
+# 指定自定义图标URL
+go run main.go -http-url https://test.com/path -icon https://example.com/icon.jpg
 ```
 
 ### 命令行参数
 
 - `-port`: TCP服务器监听端口（默认：8080）
 - `-http-url`: HTTP请求的基础URL（必需）
+- `-icon`: 图标URL（默认：https://i.ibb.co/WNcWfLJP/unnamed.jpg）
 
 ### 测试服务器
 
@@ -78,12 +82,12 @@ echo '{"txt":"测试消息","num":"+8613061709786","cmd":"sms","metas":{"tz":32,
 
 服务器会将接收到的消息转发到以下格式的URL：
 ```
-{http-url}/{phone-number}/{message-text}
+{http-url}/{phone-number}/{message-text}?icon={icon-url}
 ```
 
 例如，如果设置 `-http-url https://test.com/path`，消息将被转发到：
 ```
-https://test.com/path/+8613061709786/测试消息
+https://test.com/path/+8613061709786/测试消息?icon=https://i.ibb.co/WNcWfLJP/unnamed.jpg
 ```
 
 ## 配置说明
@@ -119,7 +123,7 @@ Queued message for HTTP request [txt=测试消息 num=+8613061709786]
 
 3. HTTP响应日志：
 ```
-HTTP Response [url=https://test.com/path/+8613061709786/测试消息 status=200]
+HTTP Response [url=https://test.com/path/+8613061709786/测试消息?icon=https://i.ibb.co/WNcWfLJP/unnamed.jpg status=200]
 ```
 
 ## 优雅关闭
